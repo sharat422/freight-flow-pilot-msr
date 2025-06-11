@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, Phone, Mail, ArrowRight, Users, User } from 'lucide-react';
+import { ChevronDown, Menu, Phone, Mail, ArrowRight, Users, User, Truck, Package, MapPin, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
@@ -11,22 +10,22 @@ export default function Home() {
     {
       title: "Load Management",
       description: "Efficient load tracking and management with real-time updates",
-      icon: "📦"
+      icon: Package
     },
     {
       title: "Driver Coordination", 
       description: "Seamless driver management and communication tools",
-      icon: "🚛"
+      icon: Truck
     },
     {
       title: "Route Optimization",
       description: "Smart routing algorithms to maximize efficiency and reduce costs",
-      icon: "🗺️"
+      icon: MapPin
     },
     {
       title: "Real-time Tracking",
       description: "Live GPS tracking and delivery status updates",
-      icon: "📍"
+      icon: Clock
     }
   ];
 
@@ -108,9 +107,19 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* Hero Section with Truck Background */}
+      <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+            alt="Trucks on highway"
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-gray-900/90"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center animate-fade-in">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               Professional Freight Dispatching
@@ -136,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* Trust Badges */}
-      <section className="py-12 border-y border-gray-800">
+      <section className="py-12 border-y border-gray-800 bg-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-gray-400 text-sm mb-8">Trusted by 500+ logistics companies</p>
@@ -149,9 +158,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* Services Section with Background */}
+      <section id="services" className="relative py-20 px-4 sm:px-6 lg:px-8">
+        {/* Background Image for Services */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
+            alt="Freight trucks in warehouse"
+            className="w-full h-full object-cover opacity-10"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Complete Dispatching Solution</h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -160,15 +178,80 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="group glass-effect p-6 rounded-xl card-hover">
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-gray-400 leading-relaxed">{service.description}</p>
+            {services.map((service, index) => {
+              const IconComponent = service.icon;
+              return (
+                <div key={index} className="group glass-effect p-6 rounded-xl card-hover">
+                  <IconComponent className="h-12 w-12 text-primary mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">{service.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section with Truck Image */}
+      <section id="about" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gray-800/30">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+            alt="Truck driver and logistics"
+            className="w-full h-full object-cover opacity-15"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Why Choose MSR Freight Dispatchers?</h2>
+              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                With over a decade of experience in the logistics industry, MSR Freight Dispatchers 
+                provides cutting-edge technology solutions that streamline operations and maximize profitability.
+              </p>
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex items-center">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                  24/7 dispatch support and monitoring
+                </li>
+                <li className="flex items-center">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                  Advanced route optimization algorithms
+                </li>
+                <li className="flex items-center">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                  Real-time load tracking and updates
+                </li>
+                <li className="flex items-center">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                  Comprehensive reporting and analytics
+                </li>
+              </ul>
+            </div>
+            <div className="glass-effect p-8 rounded-xl">
+              <h3 className="text-2xl font-bold mb-4 text-primary">Industry Stats</h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white mb-2">500+</div>
+                  <div className="text-gray-400">Active Carriers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white mb-2">50k+</div>
+                  <div className="text-gray-400">Loads Dispatched</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white mb-2">99.9%</div>
+                  <div className="text-gray-400">Uptime</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white mb-2">24/7</div>
+                  <div className="text-gray-400">Support</div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -201,8 +284,17 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      <section id="contact" className="relative py-20 px-4 sm:px-6 lg:px-8">
+        {/* Background Image for Contact */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+            alt="Logistics center"
+            className="w-full h-full object-cover opacity-10"
+          />
+        </div>
+        
+        <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-xl text-gray-400">
