@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play } from 'lucide-react';
@@ -11,7 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'services', 'how-it-works', 'testimonials', 'contact'];
+      const sections = ['home', 'services', 'how-it-works', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -85,33 +84,6 @@ export default function Home() {
     }
   ];
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      company: "Swift Logistics",
-      role: "Operations Manager",
-      text: "MSR has transformed our dispatch operations. We've seen a 40% increase in efficiency and our drivers love the new system.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b0e0?w=100&h=100&fit=crop&crop=face"
-    },
-    {
-      name: "Mike Rodriguez", 
-      company: "TransCorp",
-      role: "Fleet Director",
-      text: "The route optimization alone has saved us thousands in fuel costs. Outstanding platform with excellent support.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
-    },
-    {
-      name: "Emily Chen",
-      company: "Freight Masters",
-      role: "CEO",
-      text: "Real-time tracking and automated reporting have given us complete visibility into our operations. Game changer!",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
-    }
-  ];
-
   const partners = [
     "SWIFT LOGISTICS",
     "TRANSCORP", 
@@ -140,7 +112,6 @@ export default function Home() {
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Services' },
                 { id: 'how-it-works', label: 'How It Works' },
-                { id: 'testimonials', label: 'Testimonials' },
                 { id: 'contact', label: 'Contact' }
               ].map((item) => (
                 <button
@@ -179,7 +150,6 @@ export default function Home() {
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Services' },
                 { id: 'how-it-works', label: 'How It Works' },
-                { id: 'testimonials', label: 'Testimonials' },
                 { id: 'contact', label: 'Contact' }
               ].map((item) => (
                 <button
@@ -342,48 +312,6 @@ export default function Home() {
                 <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{step.description}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
-            <p className="text-xl text-muted-foreground">
-              Join hundreds of satisfied logistics professionals
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 italic leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="flex items-center">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full mr-4"
-                    />
-                    <div>
-                      <div className="font-semibold">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.role}, {testimonial.company}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             ))}
           </div>
         </div>
