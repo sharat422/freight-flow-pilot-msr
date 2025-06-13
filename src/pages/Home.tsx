@@ -36,28 +36,28 @@ export default function Home() {
 
   const services = [
     {
-      title: "Load Management",
-      description: "Comprehensive load tracking and dispatch management with real-time updates and automated workflows",
+      title: "Load Booking & Negotiation",
+      description: "Direct connections with top-rated brokers and shippers, plus expert rate negotiation to maximize your earnings on every load",
       icon: Package,
-      features: ["Real-time tracking", "Automated dispatch", "Load optimization"]
+      features: ["Top-rated broker network", "Rate optimization", "Direct shipper connections"]
     },
     {
-      title: "Driver Coordination", 
-      description: "Seamless driver management with communication tools and performance tracking",
+      title: "Dedicated Dispatcher Support", 
+      description: "Your personal dispatcher handling all communications, paperwork, and logistics so you can focus on driving",
       icon: Users,
-      features: ["Driver communication", "Performance analytics", "Schedule management"]
+      features: ["Personal dispatcher", "24/7 availability", "Complete paperwork handling"]
     },
     {
-      title: "Route Optimization",
-      description: "AI-powered routing to maximize efficiency and reduce operational costs",
+      title: "Route Planning & Optimization",
+      description: "Intelligent route planning with fuel optimization to minimize deadhead miles and maximize profitability",
       icon: MapPin,
-      features: ["Smart routing", "Cost reduction", "Time optimization"]
+      features: ["Zero deadhead routing", "Fuel optimization", "Efficient load planning"]
     },
     {
-      title: "Fleet Management",
-      description: "Complete fleet oversight with maintenance tracking and vehicle analytics",
+      title: "Carrier Setup & Support",
+      description: "Complete carrier packet setup and ongoing administrative support for seamless operations",
       icon: Truck,
-      features: ["Vehicle tracking", "Maintenance alerts", "Fleet analytics"]
+      features: ["Carrier packet setup", "Administrative support", "Compliance assistance"]
     }
   ];
 
@@ -177,13 +177,43 @@ export default function Home() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                  Revolutionize Your
-                  <span className="bg-gradient-primary bg-clip-text text-transparent"> Freight Operations</span>
+                  Keep Your Wheels Turning
+                  <span className="bg-gradient-primary bg-clip-text text-transparent"> & Profits Growing</span>
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  The most advanced dispatching platform for modern logistics companies. 
-                  Streamline operations, optimize routes, and scale your business with intelligent automation.
+                  MSR Freight Dispatchers is your trusted partner in keeping your wheels turning and your profits growing. 
+                  We provide reliable, hassle-free dispatching services for owner-operators and small trucking fleets, 
+                  helping you focus on driving while we handle the paperwork, load hunting, and negotiations.
                 </p>
+                <div className="bg-muted/50 rounded-lg p-6 space-y-4">
+                  <h3 className="font-semibold text-lg">🔑 What We Offer:</h3>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Load booking with top-rated brokers & shippers
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Rate negotiation to maximize your earnings
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Dedicated dispatcher support
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Carrier packet setup & paperwork handling
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Route planning & fuel optimization
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      24/7 support and check calls
+                    </li>
+                  </ul>
+                </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
@@ -202,15 +232,15 @@ export default function Home() {
               <div className="flex items-center space-x-8 text-sm text-muted-foreground">
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  Free 30-day trial
+                  Zero deadhead miles
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  No setup fees
+                  Maximum revenue
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  24/7 support
+                  Always loaded
                 </div>
               </div>
             </div>
@@ -231,7 +261,7 @@ export default function Home() {
       <section className="py-16 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-muted-foreground font-medium">Trusted by 500+ logistics companies worldwide</p>
+            <p className="text-muted-foreground font-medium">Trusted by owner-operators and small fleets nationwide</p>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
             {partners.map((partner, index) => (
@@ -247,9 +277,11 @@ export default function Home() {
       <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Complete Dispatching Solutions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Success Is Our Mission</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive tools designed to streamline every aspect of your freight operations
+              Our experienced dispatchers work tirelessly to find high-paying freight, manage your routes efficiently, 
+              and support you every mile of the way. Whether you're an independent driver or managing a fleet, 
+              we make sure you're always loaded and moving.
             </p>
           </div>
           
