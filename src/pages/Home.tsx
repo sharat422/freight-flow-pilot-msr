@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -231,6 +232,11 @@ export default function Home() {
                   We provide reliable, hassle-free dispatching services for owner-operators and small trucking fleets, 
                   helping you focus on driving while we handle the paperwork, load hunting, and negotiations.
                 </p>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Our experienced dispatchers work tirelessly to find high-paying freight, manage your routes efficiently, 
+                  and support you every mile of the way. Whether you're an independent driver or managing a fleet, 
+                  we make sure you're always loaded and moving — with zero deadhead and maximum revenue.
+                </p>
                 <div className="bg-muted/50 rounded-lg p-6 space-y-4">
                   <h3 className="font-semibold text-lg">🔑 What We Offer:</h3>
                   <ul className="space-y-2 text-muted-foreground">
@@ -269,10 +275,6 @@ export default function Home() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                  <Play className="mr-2 h-5 w-5" />
-                  Watch Demo
-                </Button>
               </div>
 
               <div className="flex items-center space-x-8 text-sm text-muted-foreground">
