@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'services', 'how-it-works', 'contact'];
+      const sections = ['home', 'services', 'how-it-works', 'faq', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -93,6 +94,49 @@ export default function Home() {
     "TRANSPORT PLUS"
   ];
 
+  const faqData = [
+    {
+      question: "What percentage do you charge for dispatching services?",
+      answer: "Our standard dispatch fee is competitive with industry rates. We work on a percentage basis that ensures we're invested in finding you the highest-paying loads. Contact us for detailed pricing information tailored to your specific needs."
+    },
+    {
+      question: "How do you find loads for my truck?",
+      answer: "We have established relationships with top-rated brokers and direct shippers across the country. Our dispatchers actively search load boards, negotiate with our broker network, and maintain ongoing relationships to secure consistent, high-paying freight for your equipment."
+    },
+    {
+      question: "Do you handle all the paperwork?",
+      answer: "Yes! We handle all paperwork including rate confirmations, BOLs, invoicing, and follow-up on payments. We also help with carrier packet setup and maintain all necessary documentation for compliance."
+    },
+    {
+      question: "What if I don't like a load you find?",
+      answer: "You have the final say on every load. We present options to you with all the details, and you decide what works best for your schedule and preferences. We never book loads without your approval."
+    },
+    {
+      question: "How do you ensure I don't run empty miles?",
+      answer: "Our route planning focuses on minimizing deadhead miles by strategically planning your next load while you're completing your current one. We analyze freight patterns and work to keep you moving in freight-heavy lanes."
+    },
+    {
+      question: "What support do you provide while I'm on the road?",
+      answer: "We provide 24/7 support including check calls, handling any issues that arise during transit, coordinating with receivers, and managing any delays or problems. You're never alone on the road."
+    },
+    {
+      question: "How quickly can you find me loads?",
+      answer: "Typically, we can have your next load lined up before you complete your current delivery. Our goal is to minimize downtime and keep your wheels turning consistently."
+    },
+    {
+      question: "Do you work with new owner-operators?",
+      answer: "Absolutely! We work with both experienced owner-operators and those new to the business. We provide extra guidance and support to help new operators establish themselves successfully in the industry."
+    },
+    {
+      question: "What equipment types do you dispatch?",
+      answer: "We dispatch various equipment types including dry vans, reefers, flatbeds, step decks, and specialized equipment. Our dispatchers have experience across all major freight categories."
+    },
+    {
+      question: "How do you handle payment and invoicing?",
+      answer: "We handle all invoicing and follow up on payments. We work with factoring companies and can help set up quick pay options to improve your cash flow. Payment terms and processes are clearly outlined in our agreement."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       {/* Sticky Navigation */}
@@ -112,6 +156,7 @@ export default function Home() {
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Services' },
                 { id: 'how-it-works', label: 'How It Works' },
+                { id: 'faq', label: 'FAQ' },
                 { id: 'contact', label: 'Contact' }
               ].map((item) => (
                 <button
@@ -150,6 +195,7 @@ export default function Home() {
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Services' },
                 { id: 'how-it-works', label: 'How It Works' },
+                { id: 'faq', label: 'FAQ' },
                 { id: 'contact', label: 'Contact' }
               ].map((item) => (
                 <button
@@ -345,6 +391,49 @@ export default function Home() {
                 <p className="text-muted-foreground leading-relaxed">{step.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-xl text-muted-foreground">
+              Common questions from owner-operators about our dispatching services
+            </p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {faqData.map((faq, index) => (
+              <AccordionItem 
+                key={index} 
+                value={`item-${index}`} 
+                className="border rounded-lg px-6 bg-card hover:shadow-md transition-shadow"
+              >
+                <AccordionTrigger className="text-left hover:no-underline py-6">
+                  <span className="font-semibold text-lg">{faq.question}</span>
+                </AccordionTrigger>
+                <AccordionContent className="pb-6 text-muted-foreground leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="text-center mt-12">
+            <p className="text-lg text-muted-foreground mb-6">
+              Have more questions? We're here to help!
+            </p>
+            <Button 
+              size="lg" 
+              onClick={() => scrollToSection('contact')}
+              className="px-8 py-6"
+            >
+              Contact Us
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
       </section>
