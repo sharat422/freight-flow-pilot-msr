@@ -436,7 +436,7 @@ export default function Home() {
                 <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-gradient-to-br from-white to-gray-50 hover:scale-105">
                   <CardContent className="p-8">
                     <div className="flex items-start space-x-6">
-                      <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg`}>
+                      <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                         <IconComponent className="h-8 w-8 text-white" />
                       </div>
                       <div className="flex-1">
