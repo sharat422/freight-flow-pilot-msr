@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play, ChevronDown, TruckIcon, Contact } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Camera } from 'lucide-react';
+import axios from 'axios';
 
-
+type FormData = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  company: string;
+  message: string;
+};
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -138,6 +146,75 @@ export default function Home() {
     }
   ];
 
+
+  const [formData, setFormData] = useState<FormData>({
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    company: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/messages', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      setSubmitStatus({
+        success: true,
+        message: 'Message sent successfully!'
+      });
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: ''
+      });
+    } catch (error) {
+      let errorMessage = 'Failed to send message. Please try again.';
+      
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          errorMessage = error.response.data.message || errorMessage;
+        } else if (error.code === 'ECONNABORTED') {
+          errorMessage = 'Connection timeout - server not responding';
+        } else if (error.code === 'ERR_NETWORK') {
+          errorMessage = 'Cannot connect to server - make sure backend is running';
+        }
+      }
+
+      setSubmitStatus({
+        success: false,
+        message: errorMessage
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }; 
+
   return (
     <div className="min-h-screen bg-background">
       {/* Sticky Navigation */}
@@ -228,7 +305,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Add commentMore actions
+              <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                 🚛 #1 Freight Dispatching Service
               </div>
               
@@ -247,27 +324,27 @@ export default function Home() {
                   <h3 className="font-semibold text-lg">🔑 What We Offer:</h3>
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       Load booking with top-rated brokers & shippers
                     </li>
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       Rate negotiation to maximize your earnings
                     </li>
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       Dedicated dispatcher support
                     </li>
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       Carrier packet setup & paperwork handling
                     </li>
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       Route planning & fuel optimization
                     </li>
                     <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       24/7 support and check calls
                     </li>
                   </ul>
@@ -291,15 +368,15 @@ export default function Home() {
 
               <div className="flex items-center space-x-8 text-sm text-muted-foreground">
                 <div className="flex items-center">
-                  <Truck className="h-5 w-5 text-red-500 mr-2" />
-                  Zero deadhead miles
+                  <Truck className="h-5 w-5 text-green-500 mr-2" />
+                  No deadhead miles
                 </div>
                 <div className="flex items-center">
-                  <Truck className="h-5 w-5 text-red-500 mr-2" />
+                  <Truck className="h-5 w-5 text-green-500 mr-2" />
                   Maximum revenue
                 </div>
                 <div className="flex items-center">
-                  <Truck className="h-5 w-5 text-red-500 mr-2" />
+                  <Truck className="h-5 w-5 text-green-500 mr-2" />
                   Always loaded
                 </div>
               </div>
@@ -463,6 +540,7 @@ export default function Home() {
       </section> */}
 
       {/* Contact Section */}
+      
       <section id="contact" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -473,24 +551,16 @@ export default function Home() {
               </p>
               
               <div className="space-y-6">
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Phone</div>
-                    <div className="text-muted-foreground">+1 (307) 407-5003</div>
-                  </div>
-                </div>
+               
                 
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-primary mr-3" />
-                  <span className="text-gray-300">+1 (307) 407-5003</span>
+                  <span className="text-foreground font-bold">+1 (307) 407-5003</span>
                 </div>
                 
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 text-primary mr-3" />
-                  <span className="text-gray-300">msrfreightdispatchers@gmail.com</span>
+                  <span className="text-foreground font-bold">info@msrfreight.com</span>
                 </div>
               </div>
             </div>
@@ -498,7 +568,7 @@ export default function Home() {
             <Card className="shadow-lg">
               <CardContent className="p-8">
                 <h3 className="text-xl font-semibold mb-6">Send us a message</h3>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">First Name</label>
@@ -506,7 +576,15 @@ export default function Home() {
                         type="text"
                         className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="John"
-                      />
+                        id="firstname"
+                        name="firstname"
+                        value={formData.firstname}
+                        onChange={handleChange}
+                        required
+                        />
+            
+            
+                      
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Last Name</label>
@@ -514,7 +592,12 @@ export default function Home() {
                         type="text"
                         className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="Doe"
-                      />
+                        id="lastname"
+                        name="lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                        required
+                        />
                     </div>
                   </div>
                   
@@ -524,15 +607,41 @@ export default function Home() {
                       type="email"
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="john@company.com"
+                      
+                       
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      
                     />
                   </div>
                   
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Phone</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      placeholder="Your Phone Number"
+                      id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Company</label>
                     <input
                       type="text"
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="Your Company"
+                      id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        required
                     />
                   </div>
                   
@@ -542,11 +651,17 @@ export default function Home() {
                       rows={4}
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
                       placeholder="Tell us about your dispatching needs..."
+                      id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
                     ></textarea>
                   </div>
                   
-                  <Button className="w-full" size="lg">
-                    Send Message
+                  <Button type= "submit" disabled={isSubmitting} className="w-full" size="lg">
+                    {isSubmitting ? 'Sending...' :   'Send Message'}
+                    
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </form>
