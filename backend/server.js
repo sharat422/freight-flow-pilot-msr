@@ -52,23 +52,16 @@ app.post('/api/messages', async (req, res) => {
     console.error("Database connection not established");
     return res.status(503).json({ error: "Database not connected" });
   }
-try {
-    console.log("Received message data:", req.body);
+
   try {
     // Validation
     if (!req.body.firstname || !req.body.email || !req.body.message) {
-       console.log("Validation failed - missing required fields");
       return res.status(400).json({ error: "Missing required fields" });
     }
 
     const result = await db.collection('messages').insertOne({
       ...req.body,
       createdAt: new Date()
-    });
-
-    console.log("Insert result:", {
-      insertedId: result.insertedId,
-      acknowledged: result.acknowledged
     });
 
     res.status(201).json({ 
