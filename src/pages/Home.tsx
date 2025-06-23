@@ -15,6 +15,7 @@ type FormData = {
   company: string;
   message: string;
 };
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -47,51 +48,51 @@ export default function Home() {
 
   const services = [
     {
-      title: "Load Booking & Negotiation",
-      description: "Direct connections with top-rated brokers and shippers, plus expert rate negotiation to maximize your earnings on every load",
+      title: "Load Booking & Rate Negotiation",
+      description: "Get access to premium loads from our extensive network of trusted brokers and shippers, with expert negotiation to secure you the highest rates per mile",
       icon: Package,
-      features: ["Top-rated broker network", "Rate optimization", "Direct shipper connections"]
+      features: ["Exclusive broker network", "Rate optimization specialists", "Direct shipper connections", "No forced loads"]
     },
     {
-      title: "Dedicated Dispatcher Support", 
-      description: "Your personal dispatcher handling all communications, paperwork, and logistics so you can focus on driving",
+      title: "24/7 Dedicated Dispatch Support", 
+      description: "Your personal dispatch team handles all communications, paperwork, and logistics coordination so you can focus on driving and earning",
       icon: Users,
-      features: ["Personal dispatcher", "24/7 availability", "Complete paperwork handling"]
+      features: ["Dedicated dispatcher", "24/7 availability", "Complete paperwork handling", "Emergency support"]
     },
     {
-      title: "Route Planning & Optimization",
-      description: "Intelligent route planning with fuel optimization to minimize deadhead miles and maximize profitability",
+      title: "Smart Route Optimization",
+      description: "AI-powered route planning that minimizes deadhead miles and maximizes your profitability with fuel-efficient routing",
       icon: MapPin,
-      features: ["Zero deadhead routing", "Fuel optimization", "Efficient load planning"]
+      features: ["Zero deadhead routing", "Fuel cost optimization", "Efficient load sequencing", "Real-time traffic updates"]
     },
     {
-       title: "Carrier Setup & Support",
-      description: "Complete carrier packet setup and ongoing administrative support for seamless operations",
+       title: "Complete Carrier Setup & Compliance",
+      description: "Full-service carrier onboarding including authority setup, insurance compliance, and ongoing administrative support",
       icon: Truck,
-      features: ["Carrier packet setup", "Administrative support", "Compliance assistance"]
+      features: ["DOT/MC setup assistance", "IFTA reporting", "ELD compliance", "Document management"]
     }
   ];
 
   const steps = [
     {
       number: "01",
-      title: "Connect Your Fleet",
-      description: "Integrate your vehicles and drivers into our comprehensive platform"
+      title: "Onboard Your Fleet",
+      description: "Quick setup process to integrate your trucks into our dispatch system (takes less than 24 hours)"
     },
     {
       number: "02", 
-      title: "Optimize Routes",
-      description: "Our AI algorithms find the most efficient routes for your deliveries"
+      title: "Receive Custom Load Offers",
+      description: "Get tailored load matches based on your equipment, preferences, and optimal routes"
     },
     {
       number: "03",
-      title: "Track & Manage",
-      description: "Monitor your operations in real-time with detailed analytics"
+      title: "Real-Time Operations Management",
+      description: "Track shipments, communicate with brokers, and manage paperwork through our platform"
     },
     {
       number: "04",
-      title: "Scale Your Business",
-      description: "Grow your operations with data-driven insights and automation"
+      title: "Grow Your Trucking Business",
+      description: "Scale your operations with our data-driven insights and dedicated support team"
     }
   ];
 
@@ -103,49 +104,49 @@ export default function Home() {
     "LOGISTICS PRO",
     "TRANSPORT PLUS"
   ];
-   const faqData = [
+
+  const faqData = [
     {
-      question: "What percentage do you charge for dispatching services?",
-      answer: "Our standard dispatch fee is competitive with industry rates. We work on a percentage basis that ensures we're invested in finding you the highest-paying loads. Contact us for detailed pricing information tailored to your specific needs."
+      question: "What makes MSR different from other freight dispatch services?",
+      answer: "Unlike generic dispatch services, we specialize in high-value freight with an average of 15-20% higher rates. Our team includes former drivers who understand your needs, and we provide 24/7 personalized support with the same dispatcher."
     },
     {
-      question: "How do you find loads for my truck?",
-      answer: "We have established relationships with top-rated brokers and direct shippers across the country. Our dispatchers actively search load boards, negotiate with our broker network, and maintain ongoing relationships to secure consistent, high-paying freight for your equipment."
+      question: "How quickly can you find loads for my truck?",
+      answer: "Most of our operators receive their next load before completing their current delivery. Our average time-to-load is under 2 hours for standard equipment in major freight lanes."
     },
     {
-      question: "Do you handle all the paperwork?",
-      answer: "Yes! We handle all paperwork including rate confirmations, BOLs, invoicing, and follow-up on payments. We also help with carrier packet setup and maintain all necessary documentation for compliance."
-    },
-    {
-      question: "What if I don't like a load you find?",
-      answer: "You have the final say on every load. We present options to you with all the details, and you decide what works best for your schedule and preferences. We never book loads without your approval."
-    },
-    {
-      question: "How do you ensure I don't run empty miles?",
-      answer: "Our route planning focuses on minimizing deadhead miles by strategically planning your next load while you're completing your current one. We analyze freight patterns and work to keep you moving in freight-heavy lanes."
-    },
-    {
-      question: "What support do you provide while I'm on the road?",
-      answer: "We provide 24/7 support including check calls, handling any issues that arise during transit, coordinating with receivers, and managing any delays or problems. You're never alone on the road."
-    },
-    {
-      question: "How quickly can you find me loads?",
-      answer: "Typically, we can have your next load lined up before you complete your current delivery. Our goal is to minimize downtime and keep your wheels turning consistently."
+      question: "What's included in your dispatch service?",
+      answer: "Our full-service dispatch includes: load booking, rate negotiation, paperwork handling, invoicing, payment follow-up, route optimization, 24/7 support, and compliance management. We're your complete back office."
     },
     {
       question: "Do you work with new owner-operators?",
-      answer: "Absolutely! We work with both experienced owner-operators and those new to the business. We provide extra guidance and support to help new operators establish themselves successfully in the industry."
+      answer: "Absolutely! We specialize in helping new operators establish themselves. We provide extra guidance on rate benchmarks, optimal lanes, and business setup - many of our newest operators become top earners within 3-6 months."
+    },
+    {
+      question: "How do you ensure I get the best rates?",
+      answer: "Our proprietary rate database shows real-time benchmarks by lane and equipment type. We negotiate based on current market conditions, your specific costs, and our relationships with premium brokers."
     },
     {
       question: "What equipment types do you dispatch?",
-      answer: "We dispatch various equipment types including dry vans, reefers, flatbeds, step decks, and specialized equipment. Our dispatchers have experience across all major freight categories."
+      answer: "We dispatch all major equipment types including dry vans (53'), reefers, flatbeds, step decks, stretch trailers, and specialized equipment. Our network includes specialized brokers for each equipment type."
     },
     {
-      question: "How do you handle payment and invoicing?",
-      answer: "We handle all invoicing and follow up on payments. We work with factoring companies and can help set up quick pay options to improve your cash flow. Payment terms and processes are clearly outlined in our agreement."
+      question: "Can I still use my favorite brokers?",
+      answer: "Yes! We'll work with your existing broker relationships while introducing you to our premium network. Many operators find they can get better rates through our negotiated contracts."
+    },
+    {
+      question: "How do you handle payments?",
+      answer: "We invoice all brokers immediately upon delivery confirmation and follow up aggressively on payments. We can help set up factoring or quick pay options, and provide weekly settlement reports."
+    },
+    {
+      question: "What geographic areas do you cover?",
+      answer: "We cover all 48 contiguous states with strong networks in major freight corridors. Our load planners specialize in keeping you in high-volume lanes with consistent backhauls."
+    },
+    {
+      question: "How do I get started with MSR Dispatch?",
+      answer: "Simply contact us for a free consultation. We'll review your equipment, operating areas, and goals to create a customized dispatch plan. Setup takes less than 24 hours in most cases."
     }
   ];
-
 
   const [formData, setFormData] = useState<FormData>({
     firstname: '',
@@ -213,7 +214,7 @@ export default function Home() {
     } finally {
       setIsSubmitting(false);
     }
-  }; 
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -232,10 +233,10 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-8">
               {[
                 { id: 'home', label: 'Home' },
-                { id: 'services', label: 'Services' },
+                { id: 'services', label: 'Dispatch Services' },
                 { id: 'how-it-works', label: 'How It Works' },
                 { id: 'faq', label: 'FAQ' },
-                { id: 'contact', label: 'Contact' }
+                { id: 'contact', label: 'Contact Us' }
               ].map((item) => (
                 <button
                   key={item.id}
@@ -247,9 +248,6 @@ export default function Home() {
                   {item.label}
                 </button>
               ))}
-             {/* Mobile menu button <Link to="/login">
-                <Button className="ml-4">Get Started</Button>
-              </Link> */} 
             </div>
 
             {/* Mobile menu button */}
@@ -271,10 +269,10 @@ export default function Home() {
             <div className="px-2 pt-2 pb-3 space-y-1">
               {[
                 { id: 'home', label: 'Home' },
-                { id: 'services', label: 'Services' },
+                { id: 'services', label: 'Dispatch Services' },
                 { id: 'how-it-works', label: 'How It Works' },
                 { id: 'faq', label: 'FAQ' },
-                { id: 'contact', label: 'Contact' }
+                { id: 'contact', label: 'Contact Us' }
               ].map((item) => (
                 <button
                   key={item.id}
@@ -295,8 +293,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      
-          <section id="home" className="pt-16 min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      <section id="home" className="pt-16 min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-float"></div>
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
@@ -306,78 +303,66 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                🚛 #1 Freight Dispatching Service
+                🚛 #1 Rated Freight Dispatch Service
               </div>
               
               <div className="space-y-6">
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                   
-                  Keep Your Wheels Turning
-                  <span className=" bg-clip-text "> & Profits Growing</span>
+                  Maximize Your Trucking Profits With Expert Dispatch Services
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  MSR Freight Dispatchers is your trusted partner in keeping your wheels turning and your profits growing. 
-                  We provide reliable, hassle-free dispatching services for owner-operators and small trucking fleets, 
-                  helping you focus on driving while we handle the paperwork, load hunting, and negotiations.
+                  MSR Freight Dispatch helps owner-operators and small fleets earn 15-20% more per mile through our premium load network, expert rate negotiation, and 24/7 dispatch support. Focus on driving while we handle the business side of trucking.
                 </p>
                 <div className="bg-muted/50 rounded-lg p-6 space-y-4">
-                  <h3 className="font-semibold text-lg">🔑 What We Offer:</h3>
+                  <h3 className="font-semibold text-lg">Why Choose MSR Dispatch:</h3>
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      Load booking with top-rated brokers & shippers
+                      <strong>Higher paying loads:</strong> Average 15-20% better rates than industry standards
                     </li>
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      Rate negotiation to maximize your earnings
+                      <strong>Zero deadhead guarantee:</strong> We plan routes to keep you loaded both ways
                     </li>
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      Dedicated dispatcher support
+                      <strong>24/7 dedicated dispatcher:</strong> Same person handles all your loads
                     </li>
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      Carrier packet setup & paperwork handling
+                      <strong>Complete paperwork handling:</strong> We manage all documents and invoicing
                     </li>
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      Route planning & fuel optimization
-                    </li>
-                    <li className="flex items-center">
-                      <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                      24/7 support and check calls
+                      <strong>Payment assurance:</strong> We follow up on all invoices until paid
                     </li>
                   </ul>
                 </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/login">
-                {/*
-                  <Button size="lg" className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
-                    Get Started Free
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                */}
-                </Link>
-               {/* <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                  <Play className="mr-2 h-5 w-5" />
-                  Watch Demo
-                </Button> */}
+                <Button 
+                  onClick={() => scrollToSection('contact')}
+                  size="lg" 
+                  className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all bg-gradient-to-r from-blue-600 to-blue-700"
+                >
+                  Get a Free Dispatch Consultation
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </div>
 
-              <div className="flex items-center space-x-8 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center">
                   <Truck className="h-5 w-5 text-green-500 mr-2" />
-                  No deadhead miles
+                  Average 15-20% higher rates
                 </div>
                 <div className="flex items-center">
                   <Truck className="h-5 w-5 text-green-500 mr-2" />
-                  Maximum revenue
+                  24/7 Dispatch Support
                 </div>
                 <div className="flex items-center">
                   <Truck className="h-5 w-5 text-green-500 mr-2" />
-                  Always loaded
+                  Zero Deadhead Guarantee
                 </div>
               </div>
             </div>
@@ -386,7 +371,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-primary rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
               <img 
                 src={'/public/Cargo.png'}
-                alt="Modern logistics dashboard"
+                alt="Truck driver using MSR dispatch services for higher profits"
                 className="relative rounded-3xl shadow-2xl"
               />
             </div>
@@ -394,18 +379,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Section */}
-      
-
       {/* Services Section */}
       <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Success Is Our Mission</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Truck Dispatch Services That Grow Your Business</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Our experienced dispatchers work tirelessly to find high-paying freight, manage your routes efficiently, 
-              and support you every mile of the way. Whether you're an independent driver or managing a fleet, 
-              we make sure you're always loaded and moving.
+              Our specialized dispatch services help owner-operators and small fleets earn more with less hassle. 
+              We're not just dispatchers - we're your partners in building a more profitable trucking business.
             </p>
           </div>
           
@@ -448,9 +429,9 @@ export default function Home() {
       <section id="how-it-works" className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How Our Truck Dispatch Service Works</h2>
             <p className="text-xl text-muted-foreground">
-              Get started in minutes with our simple 4-step process
+              Simple 4-step process to higher profits and easier operations
             </p>
           </div>
           
@@ -473,13 +454,13 @@ export default function Home() {
         </div>
       </section>
 
-{/* FAQ Section */}
+      {/* FAQ Section */}
       <section id="faq" className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Truck Dispatch FAQs</h2>
             <p className="text-xl text-muted-foreground">
-              Common questions from owner-operators about our dispatching services
+              Answers to common questions about our professional dispatch services
             </p>
           </div>
           
@@ -502,57 +483,31 @@ export default function Home() {
 
           <div className="text-center mt-12">
             <p className="text-lg text-muted-foreground mb-6">
-              Have more questions? We're here to help!
+              Ready to increase your trucking profits? Get started today.
             </p>
             <Button 
               size="lg" 
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-6"
+              className="px-8 py-6 bg-gradient-to-r from-blue-600 to-blue-700"
             >
-              Contact Us
+              Get Your Free Consultation
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
       </section>
-      {/* CTA Section */}
-      {/*<section className="py-20 bg-gradient-primary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Transform Your Operations?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 leading-relaxed">
-            Join thousands of logistics companies that trust MSR for their dispatching needs.
-            Start your free trial today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/login">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6 shadow-lg hover:shadow-xl">
-                Start Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-white text-white hover:bg-white hover:text-primary">
-              Schedule Demo
-            </Button>
-          </div>
-        </div>
-      </section> */}
 
       {/* Contact Section */}
-      
       <section id="contact" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Get in Touch</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Start Earning More With Professional Dispatch</h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Ready to streamline your freight operations? Contact us today for a personalized demo.
+                Contact us today for a free consultation and discover how our dispatch services can increase your profits and reduce your stress.
               </p>
               
               <div className="space-y-6">
-               
-                
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-primary mr-3" />
                   <span className="text-foreground font-bold">+1 (307) 407-5003</span>
@@ -562,12 +517,30 @@ export default function Home() {
                   <Mail className="h-5 w-5 text-primary mr-3" />
                   <span className="text-foreground font-bold">info@msrfreight.com</span>
                 </div>
+
+                <div className="pt-6">
+                  <h3 className="font-semibold text-lg mb-3">Our Dispatch Guarantee:</h3>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>No long-term contracts - cancel anytime</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>24-hour setup for most operators</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>First week satisfaction guarantee</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             
             <Card className="shadow-lg">
               <CardContent className="p-8">
-                <h3 className="text-xl font-semibold mb-6">Send us a message</h3>
+                <h3 className="text-xl font-semibold mb-6">Get Your Free Dispatch Evaluation</h3>
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -581,10 +554,7 @@ export default function Home() {
                         value={formData.firstname}
                         onChange={handleChange}
                         required
-                        />
-            
-            
-                      
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Last Name</label>
@@ -597,7 +567,7 @@ export default function Home() {
                         value={formData.lastname}
                         onChange={handleChange}
                         required
-                        />
+                      />
                     </div>
                   </div>
                   
@@ -607,14 +577,11 @@ export default function Home() {
                       type="email"
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="john@company.com"
-                      
-                       
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                      
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
                     />
                   </div>
                   
@@ -625,10 +592,10 @@ export default function Home() {
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="Your Phone Number"
                       id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
                     />
                   </div>
                   <div>
@@ -638,10 +605,9 @@ export default function Home() {
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="Your Company"
                       id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        required
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
                     />
                   </div>
                   
@@ -650,18 +616,17 @@ export default function Home() {
                     <textarea
                       rows={4}
                       className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
-                      placeholder="Tell us about your dispatching needs..."
+                      placeholder="Tell us about your trucking business and dispatch needs..."
                       id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
                     ></textarea>
                   </div>
                   
-                  <Button type= "submit" disabled={isSubmitting} className="w-full" size="lg">
-                    {isSubmitting ? 'Sending...' :   'Send Message'}
-                    
+                  <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
+                    {isSubmitting ? 'Sending...' : 'Get Free Consultation'}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </form>
@@ -674,15 +639,13 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          
-          <div className="border-t border-gray-800 ">
+          <div className="border-t border-gray-800 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                &copy; 2024 MSR Freight Dispatchers. All rights reserved.
+                &copy; 2024 MSR Freight Dispatch Services. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
-                 <Link to="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</Link>
+                <Link to="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</Link>
                 <Link to="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</Link>
               </div>
             </div>
