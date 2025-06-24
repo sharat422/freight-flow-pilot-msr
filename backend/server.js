@@ -138,7 +138,7 @@ async function connectDB() {
 // Create the email transporter with better error handling
 let transporter;
 try {
-  transporter = nodemailer.createTransporter({
+  transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
     secure: process.env.EMAIL_SECURE === 'true',
