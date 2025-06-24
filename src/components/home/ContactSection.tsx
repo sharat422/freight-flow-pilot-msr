@@ -1,99 +1,83 @@
-
 import { useState } from 'react';
-import { Phone, Mail, Clock, ArrowRight } from 'lucide-react';
+import { Phone, Mail, Clock, ArrowRight, Loader2, LetterText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/components/ui/use-toast';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'; 
+
+const formSchema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Valid email is required'),
+  phone: z.string().regex(/^[0-9]{10,15}$/, 'Valid phone number required').optional(),
+  company: z.string().optional(),
+  message: z.string().optional()
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactSection() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    company: '',
-    message: ''
+  const { toast } = useToast();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: ''
+    }
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const onSubmit = async (data: FormValues) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
-      return;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      const errorMessage = errorData?.message || errorData?.error || `Request failed with status ${response.status}`;
+      throw new Error(errorMessage);
     }
 
-    setIsSubmitting(true);
+    const result = await response.json();
+    toast({
+      title: "Message Sent!",
+      description: "Thank you for contacting us. We'll get back to you soon.",
+    });
+    reset();
 
-    try {
-      const { error } = await supabase
-        .from('carrier')
-        .insert([
-          {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            email: formData.email,
-            message: `Company: ${formData.company || 'Not provided'}\n\nMessage: ${formData.message}`
-          }
-        ]);
-
-      if (error) {
-        console.error('Error submitting form:', error);
-        toast({
-          title: "Error",
-          description: "There was an error submitting your message. Please try again.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Message Sent!",
-          description: "Thank you for your message. We'll get back to you soon.",
-        });
-        
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          company: '',
-          message: ''
-        });
-      }
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  } catch (error) {
+    console.error('Submission error:', error);
+    toast({
+      title: "Error",
+      description: error instanceof Error ? error.message : 'Failed to send message',
+      variant: "destructive",
+    });
+  }
+};
 
   return (
     <section id="contact" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-6">
-              📞 Contact Us
-            </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Get in Touch</h2>
             <p className="text-xl text-muted-foreground mb-8">
               Ready to streamline your freight operations? Contact us today for a personalized demo.
@@ -106,7 +90,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="font-semibold text-lg">Phone</div>
-                  <div className="text-muted-foreground">+1 (555) 123-4567</div>
+                  <div className="text-muted-foreground">+1 (307) 407-5003</div>
                 </div>
               </div>
               
@@ -135,51 +119,61 @@ export default function ContactSection() {
           <Card className="shadow-2xl border-0 bg-gradient-to-br from-white to-gray-50">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold mb-6">Send us a message</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-3">First Name</label>
+                    <label className="block text-sm font-semibold mb-3">First Name *</label>
                     <Input
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
+                      {...register('firstName')}
                       placeholder="John"
-                      required
                       className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
                     />
+                    {errors.firstName && (
+                      <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-3">Last Name</label>
+                    <label className="block text-sm font-semibold mb-3">Last Name *</label>
                     <Input
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
+                      {...register('lastName')}
                       placeholder="Doe"
-                      required
                       className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
                     />
+                    {errors.lastName && (
+                      <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
+                    )}
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-semibold mb-3">Email</label>
+                  <label className="block text-sm font-semibold mb-3">Email *</label>
                   <Input
                     type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
+                    {...register('email')}
                     placeholder="john@company.com"
-                    required
                     className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-3">Phone</label>
+                  <Input
+                    {...register('phone')}
+                    placeholder="(123) 456-7890"
+                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
+                  )}
                 </div>
                 
                 <div>
                   <label className="block text-sm font-semibold mb-3">Company</label>
                   <Input
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
+                    {...register('company')}
                     placeholder="Your Company"
                     className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
                   />
@@ -188,14 +182,14 @@ export default function ContactSection() {
                 <div>
                   <label className="block text-sm font-semibold mb-3">Message</label>
                   <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
+                    {...register('message')}
                     rows={4}
                     placeholder="Tell us about your dispatching needs..."
-                    required
                     className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none transition-all"
                   />
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+                  )}
                 </div>
                 
                 <Button 
@@ -204,8 +198,17 @@ export default function ContactSection() {
                   className="w-full py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl shadow-lg hover:shadow-xl transition-all" 
                   size="lg"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                  {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>

@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Camera } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import axios from 'axios';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Textarea } from '@/components/ui/textarea';
+import ContactSection from '@/components/home/ContactSection';
 
 type FormData = {
   firstname: string;
@@ -16,9 +22,28 @@ type FormData = {
   message: string;
 };
 
+const formSchema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Valid email is required'),
+  phone: z.string().regex(/^[0-9]{10,15}$/, 'Valid phone number required').optional(),
+  company: z.string().optional(),
+  message: z.string().optional()
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  const {
+  register,
+  handleSubmit,
+  formState: { errors }
+} = useForm<FormValues>({
+  resolver: zodResolver(formSchema)
+});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,13 +195,19 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/messages', formData, {
+      const response = await axios.post('http://localhost:5000/api/messages', {
+        firstname: data.firstName || '',
+        lastname: data.lastName || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        company: data.company || '',
+        message: data.message || ''
+      }, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -496,9 +527,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+<ContactSection />
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      {/*<section id="contact" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
@@ -541,89 +572,79 @@ export default function Home() {
             <Card className="shadow-lg">
               <CardContent className="p-8">
                 <h3 className="text-xl font-semibold mb-6">Get Your Free Dispatch Evaluation</h3>
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">First Name</label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                        placeholder="John"
-                        id="firstname"
-                        name="firstname"
-                        value={formData.firstname}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+                    <label className="block text-sm font-semibold mb-3">First Name *</label>
+                    <Input
+                      {...register('firstName')}
+                      placeholder="John"
+                      className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                    />
+                    {errors.firstName && (
+                      <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
+                    )}
+                  </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Last Name</label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                        placeholder="Doe"
-                        id="lastname"
-                        name="lastname"
-                        value={formData.lastname}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+                    <label className="block text-sm font-semibold mb-3">Last Name *</label>
+                    <Input
+                      {...register('lastName')}
+                      placeholder="Doe"
+                      className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                    />
+                    {errors.lastName && (
+                      <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
+                    )}
+                  </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      placeholder="john@company.com"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
+                   <div>
+                  <label className="block text-sm font-semibold mb-3">Email *</label>
+                  <Input
+                    type="email"
+                    {...register('email')}
+                    placeholder="john@company.com"
+                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                  />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  )}
+                </div>
                   
+                   <div>
+                  <label className="block text-sm font-semibold mb-3">Phone</label>
+                  <Input
+                    {...register('phone')}
+                    placeholder="(123) 456-7890"
+                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
+                  )}
+                </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Phone</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      placeholder="Your Phone Number"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Company</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      placeholder="Your Company"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                    />
-                  </div>
+                  <label className="block text-sm font-semibold mb-3">Company</label>
+                  <Input
+                    {...register('company')}
+                    placeholder="Your Company"
+                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-3">Message</label>
+                  <Textarea
+                    {...register('message')}
+                    rows={4}
+                    placeholder="Tell us about your dispatching needs..."
+                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none transition-all"
+                  />
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+                  )}
+                </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Message</label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
-                      placeholder="Tell us about your trucking business and dispatch needs..."
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                    ></textarea>
-                  </div>
+                  
                   
                   <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
                     {isSubmitting ? 'Sending...' : 'Get Free Consultation'}
