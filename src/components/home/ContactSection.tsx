@@ -16,7 +16,7 @@ const formSchema = z.object({
   email: z.string().email('Valid email is required').max(100, 'Email too long'),
   phone: z.string().regex(/^[0-9+\-\s()]{10,20}$/, 'Valid phone number required').optional().or(z.literal('')),
   company: z.string().max(100, 'Company name too long').optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters').max(1000, 'Message too long').optional()
+  message: z.string().max(1000, 'Message too long').optional()
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -42,9 +42,9 @@ export default function ContactSection() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
       
-      const response = await fetch(`${apiUrl}/messages`, {
+      const response = await fetch(`${apiUrl}/api/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
