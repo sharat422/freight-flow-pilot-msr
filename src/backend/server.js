@@ -11,6 +11,7 @@ import morgan from 'morgan';
 import { createWriteStream } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import messagesRouter from './routes/messages.js';
 
 // Configure environment variables
 dotenv.config();
@@ -45,6 +46,7 @@ app.use(compression());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev', { 
   stream: process.env.NODE_ENV === 'production' ? accessLogStream : process.stdout 
 }));
+app.use('/api/messages', messagesRouter);
 
 // Rate limiting
 const limiter = rateLimit({
