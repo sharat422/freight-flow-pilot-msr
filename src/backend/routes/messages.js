@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const Message = require('../models/message');
+import { Router } from 'express';
+import Message from '../models/message.js';
 
+
+const router = Router();
 // Create a new message
 router.post('/', async (req, res) => {
   try {
@@ -24,4 +25,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-export default router; 
+export default Router; 
