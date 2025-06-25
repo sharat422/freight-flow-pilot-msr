@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -42,32 +43,27 @@ export default function ContactSection() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      console.log('Submitting contact form data:', data);
       
-      const response = await fetch(`${apiUrl}/api/messages`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      // Insert data into Supabase carrier table
+      const { data: result, error } = await supabase
+        .from('carrier')
+        .insert([
+          {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            message: data.message || `Phone: ${data.phone || 'Not provided'}, Company: ${data.company || 'Not provided'}`
+          }
+        ])
+        .select();
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        let errorMessage = 'Failed to send message';
-        
-        if (response.status === 429) {
-          errorMessage = 'Too many requests. Please try again later.';
-        } else if (errorData?.error) {
-          errorMessage = errorData.error;
-        } else if (response.status >= 500) {
-          errorMessage = 'Server error. Please try again later.';
-        }
-        
-        throw new Error(errorMessage);
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(error.message);
       }
 
-      const result = await response.json();
+      console.log('Message saved successfully:', result);
       
       toast({
         title: "Message Sent Successfully!",
