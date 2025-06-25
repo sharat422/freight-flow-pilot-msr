@@ -1,19 +1,19 @@
-const express = require('express');
-const router = express.Router();
-const Message = require('../models/message');
+import { Router } from 'express';
+import Message from '../models/message.js';
 
-// Create a new message
+const router = Router();
+
 router.post('/', async (req, res) => {
   try {
     const { firstname, lastname, email, phone, company, message } = req.body;
-    
+
     const newMessage = new Message({
       firstname,
       lastname,
       email,
       phone,
       company,
-      message
+      message,
     });
 
     const savedMessage = await newMessage.save();
@@ -24,4 +24,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

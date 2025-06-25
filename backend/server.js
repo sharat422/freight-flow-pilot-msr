@@ -20,6 +20,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const originalUse = app.use.bind(app);
+app.use = (...args) => {
+  if (typeof args[0] === 'string') {
+    console.log('🔍 app.use path:', args[0]);
+  }
+  return originalUse(...args);
+};
+
 const PORT = process.env.PORT || 5000;
 
 // Create a write stream for logging (in append mode)
