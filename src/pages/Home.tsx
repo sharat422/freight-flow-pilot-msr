@@ -284,9 +284,9 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-primary rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
               <img 
-                src={'/Cargo.png'}
+                src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 alt="Truck driver using MSR dispatch services for higher profits"
-                className="relative rounded-3xl shadow-2xl"
+                className="relative rounded-3xl shadow-2xl w-full h-auto"
               />
             </div>
           </div>
