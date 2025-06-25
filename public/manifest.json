@@ -1,0 +1,31 @@
+
+{
+  "name": "MSR Freight Dispatchers",
+  "short_name": "MSR Freight",
+  "description": "Professional freight dispatching and logistics management platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["business", "logistics", "transportation"],
+  "lang": "en-US",
+  "scope": "/"
+}
