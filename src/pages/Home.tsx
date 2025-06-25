@@ -1,49 +1,15 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Phone, Mail, ArrowRight, CheckCircle, Users, Truck, Package, MapPin, Clock, Star, Play, ChevronDown, TruckIcon, Contact } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Camera } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import axios from 'axios';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Textarea } from '@/components/ui/textarea';
 import ContactSection from '@/components/home/ContactSection';
-
-type FormData = {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-};
-
-const formSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Valid email is required'),
-  phone: z.string().regex(/^[0-9]{10,15}$/, 'Valid phone number required').optional(),
-  company: z.string().optional(),
-  message: z.string().optional()
-});
-
-type FormValues = z.infer<typeof formSchema>;
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-
-  const {
-  register,
-  handleSubmit,
-  formState: { errors }
-} = useForm<FormValues>({
-  resolver: zodResolver(formSchema)
-});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,15 +87,6 @@ export default function Home() {
     }
   ];
 
-  const partners = [
-    "SWIFT LOGISTICS",
-    "TRANSCORP", 
-    "FREIGHT MASTERS",
-    "CARGO SOLUTIONS",
-    "LOGISTICS PRO",
-    "TRANSPORT PLUS"
-  ];
-
   const faqData = [
     {
       question: "What makes MSR different from other freight dispatch services?",
@@ -172,80 +129,6 @@ export default function Home() {
       answer: "Simply contact us for a free consultation. We'll review your equipment, operating areas, and goals to create a customized dispatch plan. Setup takes less than 24 hours in most cases."
     }
   ];
-
-  const [formData, setFormData] = useState<FormData>({
-    firstname: '',
-    lastname: '',
-    email: '',
-    phone: '',
-    company: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await axios.post('http://localhost:5000/api/messages', {
-        firstname: data.firstName || '',
-        lastname: data.lastName || '',
-        email: data.email || '',
-        phone: data.phone || '',
-        company: data.company || '',
-        message: data.message || ''
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      setSubmitStatus({
-        success: true,
-        message: 'Message sent successfully!'
-      });
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: ''
-      });
-    } catch (error) {
-      let errorMessage = 'Failed to send message. Please try again.';
-      
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          errorMessage = error.response.data.message || errorMessage;
-        } else if (error.code === 'ECONNABORTED') {
-          errorMessage = 'Connection timeout - server not responding';
-        } else if (error.code === 'ERR_NETWORK') {
-          errorMessage = 'Cannot connect to server - make sure backend is running';
-        }
-      }
-
-      setSubmitStatus({
-        success: false,
-        message: errorMessage
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -527,135 +410,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-<ContactSection />
-      {/* Contact Section */}
-      {/*<section id="contact" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Start Earning More With Professional Dispatch</h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Contact us today for a free consultation and discover how our dispatch services can increase your profits and reduce your stress.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 text-primary mr-3" />
-                  <span className="text-foreground font-bold">+1 (307) 407-5003</span>
-                </div>
-                
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 text-primary mr-3" />
-                  <span className="text-foreground font-bold">info@msrfreight.com</span>
-                </div>
 
-                <div className="pt-6">
-                  <h3 className="font-semibold text-lg mb-3">Our Dispatch Guarantee:</h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span>No long-term contracts - cancel anytime</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span>24-hour setup for most operators</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span>First week satisfaction guarantee</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            <Card className="shadow-lg">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-semibold mb-6">Get Your Free Dispatch Evaluation</h3>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                    <label className="block text-sm font-semibold mb-3">First Name *</label>
-                    <Input
-                      {...register('firstName')}
-                      placeholder="John"
-                      className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-                    />
-                    {errors.firstName && (
-                      <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
-                    )}
-                  </div>
-                    <div>
-                    <label className="block text-sm font-semibold mb-3">Last Name *</label>
-                    <Input
-                      {...register('lastName')}
-                      placeholder="Doe"
-                      className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-                    />
-                    {errors.lastName && (
-                      <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
-                    )}
-                  </div>
-                  </div>
-                  
-                   <div>
-                  <label className="block text-sm font-semibold mb-3">Email *</label>
-                  <Input
-                    type="email"
-                    {...register('email')}
-                    placeholder="john@company.com"
-                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                  )}
-                </div>
-                  
-                   <div>
-                  <label className="block text-sm font-semibold mb-3">Phone</label>
-                  <Input
-                    {...register('phone')}
-                    placeholder="(123) 456-7890"
-                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-                  />
-                  {errors.phone && (
-                    <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
-                  )}
-                </div>
-                  <div>
-                  <label className="block text-sm font-semibold mb-3">Company</label>
-                  <Input
-                    {...register('company')}
-                    placeholder="Your Company"
-                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold mb-3">Message</label>
-                  <Textarea
-                    {...register('message')}
-                    rows={4}
-                    placeholder="Tell us about your dispatching needs..."
-                    className="px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none transition-all"
-                  />
-                  {errors.message && (
-                    <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
-                  )}
-                </div>
-                  
-                  
-                  
-                  <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
-                    {isSubmitting ? 'Sending...' : 'Get Free Consultation'}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Contact Section - Using the integrated ContactSection component */}
+      <ContactSection />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
