@@ -3,6 +3,7 @@ import Message from '../models/message.js';
 
 const router = Router();
 
+// POST /api/messages
 router.post('/', async (req, res) => {
   try {
     const { firstname, lastname, email, phone, company, message } = req.body;
