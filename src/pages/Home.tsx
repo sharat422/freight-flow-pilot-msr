@@ -6,6 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ContactSection from '@/components/home/ContactSection';
+import ServicesSection from '@/components/home/ServicesSection';
+import HeroSection from '@/components/home/HeroSection';
+import Navigation from '@/components/home/Navigation';
+import HowItWorksSection from '@/components/home/HowItWorksSection';
+import FAQSection from '@/components/home/FAQSection';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -133,6 +138,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Sticky Navigation */}
+      <Navigation activeSection={activeSection} scrollToSection={scrollToSection} />
+      {/*<Navigation activeSection={activeSection} scrollToSection={scrollToSection} />
       <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -144,7 +151,7 @@ export default function Home() {
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+           {/* <div className="hidden md:flex items-center space-x-8">
               {[
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Dispatch Services' },
@@ -165,7 +172,7 @@ export default function Home() {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+           {/* <div className="md:hidden">
               <Button
                 variant="ghost"
                 size="icon"
@@ -178,7 +185,7 @@ export default function Home() {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
+       {/* {isMenuOpen && (
           <div className="md:hidden bg-white border-t shadow-lg">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {[
@@ -207,7 +214,8 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-16 min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      <HeroSection />
+       {/*<section id="home" className="pt-16 min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-float"></div>
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
@@ -224,12 +232,12 @@ export default function Home() {
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                   Maximize Your Trucking Profits With Expert Dispatch Services
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
+                <p className="text-xl text-foreground leading-relaxed">
                   MSR Freight Dispatch helps owner-operators and small fleets earn 15-20% more per mile through our premium load network, expert rate negotiation, and 24/7 dispatch support. Focus on driving while we handle the business side of trucking.
                 </p>
                 <div className="bg-muted/50 rounded-lg p-6 space-y-4">
                   <h3 className="font-semibold text-lg">Why Choose MSR Dispatch:</h3>
-                  <ul className="space-y-2 text-muted-foreground">
+                  <ul className="space-y-2 text-foreground">
                     <li className="flex items-center">
                       <TruckIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
                       <strong>Higher paying loads:</strong> Average 15-20% better rates than industry standards
@@ -265,7 +273,7 @@ export default function Home() {
                 </Button>
               </div>
 
-              <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-foreground">
                 <div className="flex items-center">
                   <Truck className="h-5 w-5 text-green-500 mr-2" />
                   Average 15-20% higher rates
@@ -294,11 +302,12 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20">
+      <ServicesSection />
+     {/* <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Truck Dispatch Services That Grow Your Business</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-foreground max-w-3xl mx-auto">
               Our specialized dispatch services help owner-operators and small fleets earn more with less hassle. 
               We're not just dispatchers - we're your partners in building a more profitable trucking business.
             </p>
@@ -340,7 +349,8 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 bg-muted/50">
+      <HowItWorksSection />
+       {/*<section id="how-it-works" className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How Our Truck Dispatch Service Works</h2>
@@ -369,11 +379,12 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
+      
       <section id="faq" className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Truck Dispatch FAQs</h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-foreground">
               Answers to common questions about our professional dispatch services
             </p>
           </div>
@@ -388,7 +399,7 @@ export default function Home() {
                 <AccordionTrigger className="text-left hover:no-underline py-6">
                   <span className="font-semibold text-lg">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="pb-6 text-muted-foreground leading-relaxed">
+                <AccordionContent className="pb-6 text-foreground leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -396,7 +407,7 @@ export default function Home() {
           </Accordion>
 
           <div className="text-center mt-12">
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-lg text-foreground mb-6">
               Ready to increase your trucking profits? Get started today.
             </p>
             <Button 

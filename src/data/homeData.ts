@@ -1,36 +1,38 @@
 
 import { Package, Users, MapPin, Truck, Star, Clock, TrendingUp, Shield, Zap } from 'lucide-react';
 
+
+
 export const services = [
-  {
-    title: "Load Booking & Negotiation",
-    description: "Direct connections with top-rated brokers and shippers, plus expert rate negotiation to maximize your earnings on every load",
-    icon: Package,
-    features: ["Top-rated broker network", "Rate optimization", "Direct shipper connections"],
-    color: "from-blue-500 to-blue-600"
-  },
-  {
-    title: "Dedicated Dispatcher Support", 
-    description: "Your personal dispatcher handling all communications, paperwork, and logistics so you can focus on driving",
-    icon: Users,
-    features: ["Personal dispatcher", "24/7 availability", "Complete paperwork handling"],
-    color: "from-green-500 to-green-600"
-  },
-  {
-    title: "Route Planning & Optimization",
-    description: "Intelligent route planning with fuel optimization to minimize deadhead miles and maximize profitability",
-    icon: MapPin,
-    features: ["Zero deadhead routing", "Fuel optimization", "Efficient load planning"],
-    color: "from-purple-500 to-purple-600"
-  },
-  {
-    title: "Carrier Setup & Support",
-    description: "Complete carrier packet setup and ongoing administrative support for seamless operations",
-    icon: Truck,
-    features: ["Carrier packet setup", "Administrative support", "Compliance assistance"],
-    color: "from-orange-500 to-orange-600"
-  }
-];
+    {
+      title: "Load Booking & Rate Negotiation",
+      description: "Get access to premium loads from our extensive network of trusted brokers and shippers, with expert negotiation to secure you the highest rates per mile",
+      icon: Package,
+      features: ["Exclusive broker network", "Rate optimization specialists", "Direct shipper connections", "No forced loads"],
+      color: "from-blue-500 to-blue-600"
+    },
+    {
+      title: "24/7 Dedicated Dispatch Support", 
+      description: "Your personal dispatch team handles all communications, paperwork, and logistics coordination so you can focus on driving and earning",
+      icon: Users,
+      features: ["Dedicated dispatcher", "24/7 availability", "Complete paperwork handling", "Emergency support"],
+       color: "from-green-500 to-green-600"
+    },
+    {
+      title: "Smart Route Optimization",
+      description: "AI-powered route planning that minimizes deadhead miles and maximizes your profitability with fuel-efficient routing",
+      icon: MapPin,
+      features: ["Zero deadhead routing", "Fuel cost optimization", "Efficient load sequencing", "Real-time traffic updates"],
+      color: "from-purple-500 to-purple-600"
+    },
+    {
+       title: "Complete Carrier Setup & Compliance",
+      description: "Full-service carrier onboarding including authority setup, insurance compliance, and ongoing administrative support",
+      icon: Truck,
+      features: ["DOT/MC setup assistance", "IFTA reporting", "ELD compliance", "Document management"],
+      color: "from-orange-500 to-orange-600"
+    }
+  ];
 
 export const stats = [
   { number: "500+", label: "Active Drivers", icon: Users },
@@ -60,26 +62,26 @@ export const benefits = [
 export const steps = [
   {
     number: "01",
-    title: "Connect Your Fleet",
-    description: "Integrate your vehicles and drivers into our comprehensive platform",
+    title: "Onboard Your Fleet",
+    description: "Quick setup process to integrate your trucks into our dispatch system (takes less than 24 hours)",
     icon: Truck
   },
   {
     number: "02", 
-    title: "Optimize Routes",
-    description: "Our AI algorithms find the most efficient routes for your deliveries",
+    title: "Receive Custom Load Offers",
+    description: "Get tailored load matches based on your equipment, preferences, and optimal routes",
     icon: MapPin
   },
   {
     number: "03",
-    title: "Track & Manage",
-    description: "Monitor your operations in real-time with detailed analytics",
+    title: "Track & Real-Time Operations Management",
+    description: "Track shipments, communicate with brokers, and manage paperwork through our platform",
     icon: Users
   },
   {
     number: "04",
-    title: "Scale Your Business",
-    description: "Grow your operations with data-driven insights and automation",
+    title: "Grow Your Trucking Business",
+    description: "Scale your operations with our data-driven insights and dedicated support team",
     icon: TrendingUp
   }
 ];

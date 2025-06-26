@@ -11,10 +11,10 @@ export default function ServicesSection() {
           <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-6">
             🎯 Our Services
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Success Is Our Mission</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Our experienced dispatchers work tirelessly to find high-paying freight, manage your routes efficiently, 
-            and support you every mile of the way.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Truck Dispatch Services That Grow Your Business</h2>
+          <p className="text-xl text-foreground max-w-3xl mx-auto">
+           Our specialized dispatch services help owner-operators and small fleets earn more with less hassle. 
+              We're not just dispatchers - we're your partners in building a more profitable trucking business.
           </p>
         </div>
         
@@ -32,7 +32,7 @@ export default function ServicesSection() {
                       <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">
                         {service.title}
                       </h3>
-                      <p className="text-muted-foreground mb-6 leading-relaxed">
+                      <p className="text-foreground mb-6 leading-relaxed">
                         {service.description}
                       </p>
                       <ul className="space-y-3">

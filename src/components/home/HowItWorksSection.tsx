@@ -11,7 +11,7 @@ export default function HowItWorksSection() {
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get Started in Minutes</h2>
           <p className="text-xl text-muted-foreground">
-            Our simple 4-step process gets you on the road to success
+             Simple 4-step process to higher profits and easier operations
           </p>
         </div>
         
@@ -30,7 +30,7 @@ export default function HowItWorksSection() {
                     </div>
                   </div>
                   <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                  <p className="text-foreground leading-relaxed">{step.description}</p>
                 </div>
                 
                 {index < steps.length - 1 && (

@@ -94,7 +94,7 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Get in Touch</h2>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-foreground mb-8">
               Ready to streamline your freight operations? Contact us today for a personalized demo.
             </p>
             
@@ -105,7 +105,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="font-semibold text-lg">Phone</div>
-                  <div className="text-muted-foreground">+1 (307) 407-5003</div>
+                  <div className="text-foreground">+1 (307) 407-5003</div>
                 </div>
               </div>
               
@@ -115,7 +115,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="font-semibold text-lg">Email</div>
-                  <div className="text-muted-foreground">info@msrfreight.com</div>
+                  <div className="text-foreground">info@msrfreight.com</div>
                 </div>
               </div>
               
@@ -125,7 +125,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="font-semibold text-lg">Business Hours</div>
-                  <div className="text-muted-foreground">24/7 Support Available</div>
+                  <div className="text-foreground">24/7 Support Available</div>
                 </div>
               </div>
             </div>
