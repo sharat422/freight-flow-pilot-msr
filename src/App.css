@@ -4,7 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
-
+.App {
+  padding: 1rem;
+  box-sizing: border-box;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -17,7 +20,10 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
-
+img, .App-logo {
+  max-width: 100%;
+  height: auto;
+}
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
