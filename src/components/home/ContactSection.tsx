@@ -46,47 +46,35 @@ export default function ContactSection() {
       console.log('Submitting contact form data:', data);
       
       // Insert data into Supabase carrier table
-      const { data: result, error } = await supabase
-        .from('carrier')
-        .insert([
-          {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            email: data.email,
-            message: data.message || `Phone: ${data.phone || 'Not provided'}, Company: ${data.company || 'Not provided'}`
-          }
-        ])
-        .select();
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/messages', { method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
 
-      if (error) {
-        console.error('Supabase error:', error);
-        throw new Error(error.message);
-      }
-
-      console.log('Message saved successfully:', result);
-      
-      toast({
-        title: "Message Sent Successfully!",
-        description: "Thank you for contacting us. We'll get back to you within 24 hours.",
-      });
-      
-      reset();
-
-    } catch (error) {
-      console.error('Submission error:', error);
-      
-      let errorMessage = 'Failed to send message. Please try again.';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      const errorMessage = errorData?.message || errorData?.error || `Request failed with status ${response.status}`;
+      throw new Error(errorMessage);
     }
-  };
+
+    const result = await response.json();
+    toast({
+      title: "Message Sent!",
+      description: "Thank you for contacting us. We'll get back to you soon.",
+    });
+    reset();
+
+  } catch (error) {
+    console.error('Submission error:', error);
+    toast({
+      title: "Error",
+      description: error instanceof Error ? error.message : 'Failed to send message',
+      variant: "destructive",
+    });
+  }
+};
 
   return (
     <section id="contact" className="py-20">
