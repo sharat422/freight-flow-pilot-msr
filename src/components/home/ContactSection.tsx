@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Phone, Mail, Clock, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+// import { CarrierRow } from '@/integrations/supabase/types'; // Removed because CarrierRow does not exist
 
 const formSchema = z.object({
   firstname: z.string().min(1, 'First name is required').max(50, 'First name too long'),
@@ -45,26 +46,31 @@ export default function ContactSection() {
     try {
       console.log('Submitting contact form data:', data);
       
-      // Insert data into Supabase carrier table
-      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/messages', { method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    // Insert data into Supabase carrier table
+    const { data: Result, error } = await supabase
+      .from('carrier').insert([
+        {
+          first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            message: data.message || `Phone: ${data.phone || 'Not provided'}, Company: ${data.company || 'Not provided'}`
+        }
+      ])
+      .select('*')
+      .single();
 
-      if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      const errorMessage = errorData?.message || errorData?.error || `Request failed with status ${response.status}`;
-      throw new Error(errorMessage);
+    if (error) {
+       console.error('Supabase error:', error);
+      throw new Error(error.message);
     }
-
-    const result = await response.json();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you soon.",
-    });
-    reset();
+    console.log('Message saved successfully:', Result);
+      
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for contacting us. We'll get back to you within 24 hours.",
+      });
+    // Reset the form after successful submission
+      reset();
 
   } catch (error) {
     console.error('Submission error:', error);
