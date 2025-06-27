@@ -42,7 +42,6 @@ export default function ContactSection() {
       message: ''
     }
   });
-
   const onSubmit = async (data: FormValues) => {
     try {
       console.log('Submitting contact form data:', data);
