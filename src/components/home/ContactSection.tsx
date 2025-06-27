@@ -25,6 +25,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactSection() {
   const { toast } = useToast();
+  
   const {
     register,
     handleSubmit,
@@ -50,14 +51,13 @@ export default function ContactSection() {
     const { data: Result, error } = await supabase
       .from('carrier').insert([
         {
-          first_name: data.firstname,
-            last_name: data.lastname,
+          firstname: data.firstname,
+            lastname: data.lastname,
             email: data.email,
             message: data.message || `Phone: ${data.phone || 'Not provided'}, Company: ${data.company || 'Not provided'}`
         }
       ])
-      .select('*')
-      .single();
+      .select();
 
     if (error) {
        console.error('Supabase error:', error);
