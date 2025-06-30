@@ -425,7 +425,7 @@ export default function Home() {
 
       {/* Contact Section - Using the integrated ContactSection component */}
       <ContactSection />
- {/*<CTASection />
+  {/*<CTASection />
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
