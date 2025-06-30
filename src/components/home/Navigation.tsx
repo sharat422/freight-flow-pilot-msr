@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Logo from '/Logo_MSR.png';
+
 
 interface NavigationProps {
   activeSection: string;
@@ -30,9 +32,10 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">MSR</span>
-              </div>
+             {/* <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg"> */}
+                <img src={Logo} alt="MSR Logo" className="h-10 mr-4" /> 
+              
+              
               <span className="ml-3 text-xl font-bold text-foreground">MSR Freight Dispatchers</span>
             </div>
             

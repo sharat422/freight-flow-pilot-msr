@@ -11,6 +11,7 @@ import HeroSection from '@/components/home/HeroSection';
 import Navigation from '@/components/home/Navigation';
 import HowItWorksSection from '@/components/home/HowItWorksSection';
 import FAQSection from '@/components/home/FAQSection';
+import CTASection from '@/components/home/CTASection';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -424,7 +425,7 @@ export default function Home() {
 
       {/* Contact Section - Using the integrated ContactSection component */}
       <ContactSection />
-
+<CTASection />
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
