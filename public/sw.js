@@ -19,8 +19,8 @@ const API_CACHE_PATTERNS = [
 
 // Image cache patterns
 const IMAGE_CACHE_PATTERNS = [
-  /^https:\/\/images\.unsplash\.com\//,
-  /^https:\/\/.*\.lovableproject\.com\/.*\.(jpg|jpeg|png|gif|webp|svg)$/
+  /^https:\/\/images\.unsplash\.com\//
+  ///^https:\/\/.*\.lovableproject\.com\/.*\.(jpg|jpeg|png|gif|webp|svg)$/
 ];
 
 // Install event - cache static assets
