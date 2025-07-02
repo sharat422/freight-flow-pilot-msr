@@ -10,7 +10,6 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: '/', // ✅ This line fixes the double "https" bug
   plugins: [
     react(),
     mode === 'development' &&
