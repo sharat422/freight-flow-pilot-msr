@@ -134,9 +134,8 @@ export default function PrivacyPolicy() {
               </p>
               <div className="bg-muted/50 rounded-lg p-4">
                 <p className="text-muted-foreground">
-                  <strong>Email:</strong> privacy@msrfreight.com<br />
-                  <strong>Phone:</strong> +1 (555) 123-4567<br />
-                  <strong>Address:</strong> MSR Freight Dispatchers, 123 Logistics Ave, Transport City, TC 12345
+                  <strong>Email:</strong> info@msrfreight.com<br />
+                  <strong>Phone:</strong> +1 (307) 407-5003<br />
                 </p>
               </div>
             </section>
