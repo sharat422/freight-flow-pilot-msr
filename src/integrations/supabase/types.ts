@@ -9,7 +9,63 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      freight_loads: {
+        Row: {
+          broker_email: string | null
+          broker_name: string | null
+          broker_phone: string | null
+          created_at: string
+          destination_city: string
+          destination_state: string
+          distance: number | null
+          doft_load_id: string
+          equipment_type: string
+          id: string
+          load_details: Json | null
+          origin_city: string
+          origin_state: string
+          pickup_date: string
+          rate: number | null
+          updated_at: string
+        }
+        Insert: {
+          broker_email?: string | null
+          broker_name?: string | null
+          broker_phone?: string | null
+          created_at?: string
+          destination_city: string
+          destination_state: string
+          distance?: number | null
+          doft_load_id: string
+          equipment_type: string
+          id?: string
+          load_details?: Json | null
+          origin_city: string
+          origin_state: string
+          pickup_date: string
+          rate?: number | null
+          updated_at?: string
+        }
+        Update: {
+          broker_email?: string | null
+          broker_name?: string | null
+          broker_phone?: string | null
+          created_at?: string
+          destination_city?: string
+          destination_state?: string
+          distance?: number | null
+          doft_load_id?: string
+          equipment_type?: string
+          id?: string
+          load_details?: Json | null
+          origin_city?: string
+          origin_state?: string
+          pickup_date?: string
+          rate?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
