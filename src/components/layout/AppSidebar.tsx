@@ -1,3 +1,4 @@
+
 import {
   useEffect,
   useState
@@ -49,8 +50,8 @@ interface MenuItem {
 export function AppSidebar() {
   const { user, logout } = useAuth();
   const {
-    isOpen,
-    onClose
+    open,
+    setOpen
   } = useSidebar();
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,12 +103,12 @@ export function AppSidebar() {
   const handleNavigation = (url: string) => {
     navigate(url);
     setActiveItem(url);
-    onClose();
+    setOpen(false);
   };
 
   const handleLogout = () => {
     logout();
-    onClose();
+    setOpen(false);
   };
 
   const renderMenuItems = () => {
@@ -128,7 +129,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent side="left" className="pr-0">
         <SheetHeader className="pl-6 pb-10 pt-6">
           <SheetTitle>MSR Freight Dispatchers</SheetTitle>
