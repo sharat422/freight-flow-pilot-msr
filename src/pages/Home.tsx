@@ -69,8 +69,7 @@ export default function Home() {
       features: ["DOT/MC setup assistance", "IFTA reporting", "ELD compliance", "Document management"]
     }
   ];
-
-  const steps = [
+   const steps = [
     {
       number: "01",
       title: "Onboard Your Fleet",
