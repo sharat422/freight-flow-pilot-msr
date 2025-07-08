@@ -106,9 +106,9 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                 <Link to="/blog">
                   <Button variant="ghost" className="w-full mb-2">Blog</Button>
                 </Link>
-                <Link to="/loads">
+            {/*     <Link to="/loads">
                   <Button variant="outline" className="w-full mb-2">Load Board</Button>
-                </Link>
+                </Link> */}
                 <Link to="/login">
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700">Get Started</Button>
                 </Link>
