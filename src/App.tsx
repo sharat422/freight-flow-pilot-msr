@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoadBoard from "./pages/LoadBoard";
-import PublicLoadBoard from "./pages/PublicLoadBoard";
+//import PublicLoadBoard from "./pages/PublicLoadBoard";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
