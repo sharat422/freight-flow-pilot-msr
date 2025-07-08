@@ -63,11 +63,11 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                   Blog
                 </Button>
               </Link>
-              <Link to="/loads">
+            {/*  <Link to="/loads">
                 <Button variant="outline" className="text-sm font-medium">
                   Load Board
                 </Button>
-              </Link>
+              </Link> */}
             </div>
 
             {/* Mobile menu button */}
