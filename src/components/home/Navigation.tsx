@@ -58,6 +58,16 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                   {item.label}
                 </button>
               ))}
+              <Link to="/blog">
+                <Button variant="ghost" className="text-sm font-medium">
+                  Blog
+                </Button>
+              </Link>
+              <Link to="/loads">
+                <Button variant="outline" className="text-sm font-medium">
+                  Load Board
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -93,6 +103,12 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                 </button>
               ))}
               <div className="px-3 py-2">
+                <Link to="/blog">
+                  <Button variant="ghost" className="w-full mb-2">Blog</Button>
+                </Link>
+                <Link to="/loads">
+                  <Button variant="outline" className="w-full mb-2">Load Board</Button>
+                </Link>
                 <Link to="/login">
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700">Get Started</Button>
                 </Link>
