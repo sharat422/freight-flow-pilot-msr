@@ -39,7 +39,7 @@ function App() {
                     <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
-                  }
+                }
                 />
                 {/*<Route 
                   path="/loadboard" 
