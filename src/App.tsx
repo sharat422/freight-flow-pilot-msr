@@ -28,7 +28,7 @@ function App() {
             <div className="min-h-screen bg-background">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/loads" element={<PublicLoadBoard />} />
+                 {/* <Route path="/loads" element={<PublicLoadBoard />} /> */}
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/login" element={<Login />} />
@@ -41,14 +41,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route 
+                {/*<Route 
                   path="/loadboard" 
                   element={
                     <ProtectedRoute>
                       <LoadBoard />
                     </ProtectedRoute>
                   } 
-                />
+                /> */}
                 <Route 
                   path="/blog-admin" 
                   element={
