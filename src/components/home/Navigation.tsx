@@ -82,7 +82,6 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
             </div>
           </div>
         </div>
-
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t shadow-lg">
