@@ -36,7 +36,7 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                 <img src={Logo} alt="MSR Logo" className="h-10 mr-4" /> 
               
               
-              <span className="ml-3 text-xl font-bold text-foreground">MSR Freight Dispatchers</span>
+              <span className="ml-3 text-xl font-bold text-foreground">MSR Freight</span>
             </div>
             
             {/* Desktop Navigation */}
