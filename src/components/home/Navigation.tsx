@@ -44,7 +44,6 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
               {[
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Dispatch Services' },
-                { id: 'how-it-works', label: 'How It Works' },
                 { id: 'faq', label: 'FAQ' },
                 { id: 'contact', label: 'Contact Us' }
               ].map((item) => (
@@ -89,7 +88,6 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
               {[
                 { id: 'home', label: 'Home' },
                 { id: 'services', label: 'Dispatch Services' },
-                { id: 'how-it-works', label: 'How It Works' },
                 { id: 'faq', label: 'FAQ' },
                 { id: 'contact', label: 'Contact Us' }
               ].map((item) => (
