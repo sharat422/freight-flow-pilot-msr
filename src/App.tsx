@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import BlogManagement from "./pages/BlogManagement";
+import TruckServices from "./pages/TruckServices";
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ function App() {
                  {/* <Route path="/loads" element={<PublicLoadBoard />} /> */}
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/truck-services" element={<TruckServices />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route
