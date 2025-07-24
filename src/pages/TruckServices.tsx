@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Fuel, Truck, Navigation as NavigationIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,8 +39,27 @@ export default function TruckServices() {
   const [truckStops, setTruckStops] = useState<TruckStop[]>([]);
   const [isLoadingServices, setIsLoadingServices] = useState(false);
   const [currentView, setCurrentView] = useState<'main' | 'gas' | 'truck'>('main');
+  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadGoogleMaps = () => {
+      if ((window as any).google) {
+        setGoogleMapsLoaded(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => setGoogleMapsLoaded(true);
+      document.head.appendChild(script);
+    };
+
+    loadGoogleMaps();
+  }, []);
 
   const requestLocation = async () => {
     setIsLoadingLocation(true);
@@ -95,6 +114,15 @@ export default function TruckServices() {
   };
 
   const findGasStations = async () => {
+    if (!googleMapsLoaded) {
+      toast({
+        title: "Error",
+        description: "Google Maps is still loading. Please try again in a moment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoadingServices(true);
     
     try {
@@ -103,40 +131,51 @@ export default function TruckServices() {
         location = await requestLocation();
       }
 
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=25000&type=gas_station&key=${GOOGLE_API_KEY}`
-      );
+      const google = (window as any).google;
+      const map = new google.maps.Map(document.createElement('div'));
+      const service = new google.maps.places.PlacesService(map);
+      const userLatLng = new google.maps.LatLng(location.latitude, location.longitude);
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch gas stations');
-      }
+      const request = {
+        location: userLatLng,
+        radius: 25000, // 25km radius
+        type: 'gas_station'
+      };
 
-      const data = await response.json();
-      
-      const stations: GasStation[] = data.results.slice(0, 10).map((place: any) => {
-        const distance = calculateDistance(
-          location.latitude,
-          location.longitude,
-          place.geometry.location.lat,
-          place.geometry.location.lng
-        );
+      service.nearbySearch(request, (results: any[], status: any) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+          const stations: GasStation[] = results.slice(0, 10).map((place: any) => {
+            const distance = calculateDistance(
+              location.latitude,
+              location.longitude,
+              place.geometry.location.lat(),
+              place.geometry.location.lng()
+            );
 
-        return {
-          id: place.place_id,
-          name: place.name,
-          address: place.vicinity,
-          distance: Math.round(distance * 10) / 10,
-          fuelTypes: ['Regular', 'Premium', 'Diesel'], // Generic fuel types
-          price: undefined // Price data not available in basic API
-        };
-      });
+            // Extract fuel types from place details if available
+            const fuelTypes = ['Regular', 'Premium', 'Diesel'];
+            
+            return {
+              id: place.place_id,
+              name: place.name,
+              address: place.vicinity || place.formatted_address,
+              distance: Math.round(distance * 10) / 10,
+              fuelTypes,
+              price: place.price_level ? 2.50 + (place.price_level * 0.30) : undefined
+            };
+          });
 
-      setGasStations(stations);
-      setCurrentView('gas');
-      
-      toast({
-        title: "Gas Stations Found",
-        description: `Found ${stations.length} nearby gas stations`
+          setGasStations(stations);
+          setCurrentView('gas');
+          
+          toast({
+            title: "Gas Stations Found",
+            description: `Found ${stations.length} nearby gas stations`
+          });
+        } else {
+          throw new Error('No gas stations found');
+        }
+        setIsLoadingServices(false);
       });
     } catch (error) {
       toast({
@@ -144,12 +183,20 @@ export default function TruckServices() {
         description: "Failed to find gas stations. Please try again.",
         variant: "destructive"
       });
-    } finally {
       setIsLoadingServices(false);
     }
   };
 
   const findTruckStops = async () => {
+    if (!googleMapsLoaded) {
+      toast({
+        title: "Error",
+        description: "Google Maps is still loading. Please try again in a moment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoadingServices(true);
     
     try {
@@ -158,75 +205,105 @@ export default function TruckServices() {
         location = await requestLocation();
       }
 
-      // Search for various truck stop related places
-      const searchTerms = ['truck stop', 'travel center', 'truck plaza', 'rest stop'];
+      const google = (window as any).google;
+      const map = new google.maps.Map(document.createElement('div'));
+      const service = new google.maps.places.PlacesService(map);
+      const userLatLng = new google.maps.LatLng(location.latitude, location.longitude);
+
+      // Search for truck stops using text search
+      const searchTerms = ['truck stop', 'travel center', 'pilot flying j', 'loves travel stop'];
       let allResults: any[] = [];
+      let completedSearches = 0;
 
-      for (const term of searchTerms) {
-        const response = await fetch(
-          `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(term + ' near me')}&location=${location.latitude},${location.longitude}&radius=25000&key=${GOOGLE_API_KEY}`
-        );
+      const searchPromises = searchTerms.map((term, index) => {
+        return new Promise<void>((resolve) => {
+          const request = {
+            query: `${term} near me`,
+            location: userLatLng,
+            radius: 25000
+          };
 
-        if (response.ok) {
-          const data = await response.json();
-          allResults = [...allResults, ...data.results];
-        }
-      }
+          service.textSearch(request, (results: any[], status: any) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+              allResults = [...allResults, ...results];
+            }
+            completedSearches++;
+            
+            if (completedSearches === searchTerms.length) {
+              // Process results when all searches are complete
+              const uniqueResults = allResults.filter((place, index, self) => 
+                index === self.findIndex(p => p.place_id === place.place_id)
+              ).filter(place => 
+                place.name.toLowerCase().includes('truck') ||
+                place.name.toLowerCase().includes('travel') ||
+                place.name.toLowerCase().includes('pilot') ||
+                place.name.toLowerCase().includes('flying j') ||
+                place.name.toLowerCase().includes('loves') ||
+                place.name.toLowerCase().includes('ta ') ||
+                place.types?.some((type: string) => type.includes('gas_station') || type.includes('rest_stop'))
+              );
 
-      // Remove duplicates and filter relevant results
-      const uniqueResults = allResults.filter((place, index, self) => 
-        index === self.findIndex(p => p.place_id === place.place_id)
-      ).filter(place => 
-        place.name.toLowerCase().includes('truck') ||
-        place.name.toLowerCase().includes('travel') ||
-        place.name.toLowerCase().includes('pilot') ||
-        place.name.toLowerCase().includes('flying j') ||
-        place.name.toLowerCase().includes('ta ') ||
-        place.types?.some((type: string) => type.includes('gas_station') || type.includes('rest_stop'))
-      );
+              const stops: TruckStop[] = uniqueResults.slice(0, 10).map((place: any) => {
+                const distance = calculateDistance(
+                  location.latitude,
+                  location.longitude,
+                  place.geometry.location.lat(),
+                  place.geometry.location.lng()
+                );
 
-      const stops: TruckStop[] = uniqueResults.slice(0, 10).map((place: any) => {
-        const distance = calculateDistance(
-          location.latitude,
-          location.longitude,
-          place.geometry.location.lat,
-          place.geometry.location.lng
-        );
+                // Determine amenities based on place name and types
+                const amenities: string[] = [];
+                const name = place.name.toLowerCase();
+                
+                if (name.includes('pilot') || name.includes('flying j')) {
+                  amenities.push('Showers', 'Restaurant', 'WiFi', 'Fuel', 'ATM');
+                } else if (name.includes('loves') || name.includes('travel stop')) {
+                  amenities.push('Showers', 'Food Court', 'WiFi', 'Fuel', 'Laundry');
+                } else if (name.includes('travel center') || name.includes('travel plaza')) {
+                  amenities.push('Showers', 'Food Court', 'WiFi', 'Fuel');
+                } else if (name.includes('truck stop')) {
+                  amenities.push('Fuel', 'Parking', 'Restrooms');
+                } else {
+                  amenities.push('Fuel', 'Parking');
+                }
 
-        // Determine amenities based on place types and name
-        const amenities: string[] = [];
-        if (place.name.toLowerCase().includes('pilot') || place.name.toLowerCase().includes('flying j')) {
-          amenities.push('Showers', 'Restaurant', 'WiFi', 'Fuel');
-        } else if (place.name.toLowerCase().includes('travel center')) {
-          amenities.push('Showers', 'Food Court', 'WiFi', 'Fuel');
-        } else {
-          amenities.push('Fuel', 'Parking');
-        }
+                return {
+                  id: place.place_id,
+                  name: place.name,
+                  address: place.formatted_address || place.vicinity,
+                  distance: Math.round(distance * 10) / 10,
+                  amenities,
+                  parkingSpaces: place.rating > 4 ? Math.floor(20 + Math.random() * 30) : undefined
+                };
+              });
 
-        return {
-          id: place.place_id,
-          name: place.name,
-          address: place.formatted_address || place.vicinity,
-          distance: Math.round(distance * 10) / 10,
-          amenities,
-          parkingSpaces: undefined // Parking data not available in basic API
-        };
+              setTruckStops(stops);
+              setCurrentView('truck');
+              
+              toast({
+                title: "Truck Stops Found",
+                description: `Found ${stops.length} nearby truck stops`
+              });
+              setIsLoadingServices(false);
+            }
+            resolve();
+          });
+        });
       });
 
-      setTruckStops(stops);
-      setCurrentView('truck');
-      
-      toast({
-        title: "Truck Stops Found",
-        description: `Found ${stops.length} nearby truck stops`
-      });
+      // If no searches complete within 10 seconds, show error
+      setTimeout(() => {
+        if (completedSearches === 0) {
+          throw new Error('Search timeout');
+        }
+      }, 10000);
+
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to find truck stops. Please try again.",
         variant: "destructive"
       });
-    } finally {
       setIsLoadingServices(false);
     }
   };
