@@ -7,6 +7,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/home/Navigation';
 
+const GOOGLE_API_KEY = 'AIzaSyBgBVnUe6kFwQUMEjl5a0gH0n3kKBWadnk';
+
 interface Location {
   latitude: number;
   longitude: number;
@@ -80,6 +82,18 @@ export default function TruckServices() {
     }
   };
 
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const R = 3959; // Earth's radius in miles
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
   const findGasStations = async () => {
     setIsLoadingServices(true);
     
@@ -89,43 +103,47 @@ export default function TruckServices() {
         location = await requestLocation();
       }
 
-      // Mock data for gas stations (replace with actual API call)
-      const mockGasStations: GasStation[] = [
-        {
-          id: '1',
-          name: 'Shell Station',
-          address: '123 Main St, City, State',
-          distance: 0.5,
-          fuelTypes: ['Regular', 'Mid-Grade', 'Premium', 'Diesel'],
-          price: 3.45
-        },
-        {
-          id: '2',
-          name: 'BP Express',
-          address: '456 Highway 1, City, State',
-          distance: 1.2,
-          fuelTypes: ['Regular', 'Premium', 'Diesel'],
-          price: 3.39
-        },
-        {
-          id: '3',
-          name: 'Chevron',
-          address: '789 Interstate Dr, City, State',
-          distance: 2.1,
-          fuelTypes: ['Regular', 'Mid-Grade', 'Premium', 'Diesel'],
-          price: 3.52
-        }
-      ];
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=25000&type=gas_station&key=${GOOGLE_API_KEY}`
+      );
 
-      setGasStations(mockGasStations);
+      if (!response.ok) {
+        throw new Error('Failed to fetch gas stations');
+      }
+
+      const data = await response.json();
+      
+      const stations: GasStation[] = data.results.slice(0, 10).map((place: any) => {
+        const distance = calculateDistance(
+          location.latitude,
+          location.longitude,
+          place.geometry.location.lat,
+          place.geometry.location.lng
+        );
+
+        return {
+          id: place.place_id,
+          name: place.name,
+          address: place.vicinity,
+          distance: Math.round(distance * 10) / 10,
+          fuelTypes: ['Regular', 'Premium', 'Diesel'], // Generic fuel types
+          price: undefined // Price data not available in basic API
+        };
+      });
+
+      setGasStations(stations);
       setCurrentView('gas');
       
       toast({
         title: "Gas Stations Found",
-        description: `Found ${mockGasStations.length} nearby gas stations`
+        description: `Found ${stations.length} nearby gas stations`
       });
     } catch (error) {
-      // Error already handled in requestLocation
+      toast({
+        title: "Error",
+        description: "Failed to find gas stations. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setIsLoadingServices(false);
     }
@@ -140,43 +158,74 @@ export default function TruckServices() {
         location = await requestLocation();
       }
 
-      // Mock data for truck stops (replace with actual API call)
-      const mockTruckStops: TruckStop[] = [
-        {
-          id: '1',
-          name: 'Flying J Travel Center',
-          address: '100 Truck Plaza Rd, City, State',
-          distance: 3.2,
-          amenities: ['Showers', 'Restaurant', 'WiFi', 'Laundry', 'Repair Shop'],
-          parkingSpaces: 45
-        },
-        {
-          id: '2',
-          name: 'TA Travel Center',
-          address: '200 Highway Stop, City, State',
-          distance: 5.7,
-          amenities: ['Showers', 'Food Court', 'WiFi', 'ATM', 'Truck Wash'],
-          parkingSpaces: 23
-        },
-        {
-          id: '3',
-          name: 'Pilot Flying J',
-          address: '300 Interstate Way, City, State',
-          distance: 8.1,
-          amenities: ['Showers', 'Restaurant', 'WiFi', 'Laundry', 'CAT Scale'],
-          parkingSpaces: 67
-        }
-      ];
+      // Search for various truck stop related places
+      const searchTerms = ['truck stop', 'travel center', 'truck plaza', 'rest stop'];
+      let allResults: any[] = [];
 
-      setTruckStops(mockTruckStops);
+      for (const term of searchTerms) {
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(term + ' near me')}&location=${location.latitude},${location.longitude}&radius=25000&key=${GOOGLE_API_KEY}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          allResults = [...allResults, ...data.results];
+        }
+      }
+
+      // Remove duplicates and filter relevant results
+      const uniqueResults = allResults.filter((place, index, self) => 
+        index === self.findIndex(p => p.place_id === place.place_id)
+      ).filter(place => 
+        place.name.toLowerCase().includes('truck') ||
+        place.name.toLowerCase().includes('travel') ||
+        place.name.toLowerCase().includes('pilot') ||
+        place.name.toLowerCase().includes('flying j') ||
+        place.name.toLowerCase().includes('ta ') ||
+        place.types?.some((type: string) => type.includes('gas_station') || type.includes('rest_stop'))
+      );
+
+      const stops: TruckStop[] = uniqueResults.slice(0, 10).map((place: any) => {
+        const distance = calculateDistance(
+          location.latitude,
+          location.longitude,
+          place.geometry.location.lat,
+          place.geometry.location.lng
+        );
+
+        // Determine amenities based on place types and name
+        const amenities: string[] = [];
+        if (place.name.toLowerCase().includes('pilot') || place.name.toLowerCase().includes('flying j')) {
+          amenities.push('Showers', 'Restaurant', 'WiFi', 'Fuel');
+        } else if (place.name.toLowerCase().includes('travel center')) {
+          amenities.push('Showers', 'Food Court', 'WiFi', 'Fuel');
+        } else {
+          amenities.push('Fuel', 'Parking');
+        }
+
+        return {
+          id: place.place_id,
+          name: place.name,
+          address: place.formatted_address || place.vicinity,
+          distance: Math.round(distance * 10) / 10,
+          amenities,
+          parkingSpaces: undefined // Parking data not available in basic API
+        };
+      });
+
+      setTruckStops(stops);
       setCurrentView('truck');
       
       toast({
         title: "Truck Stops Found",
-        description: `Found ${mockTruckStops.length} nearby truck stops`
+        description: `Found ${stops.length} nearby truck stops`
       });
     } catch (error) {
-      // Error already handled in requestLocation
+      toast({
+        title: "Error",
+        description: "Failed to find truck stops. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setIsLoadingServices(false);
     }
@@ -295,7 +344,7 @@ export default function TruckServices() {
                   
                   <div className="text-right">
                     <div className="text-2xl font-bold text-green-600 mb-1">
-                      ${station.price}/gal
+                      {station.price ? `$${station.price}/gal` : 'Price N/A'}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {station.distance} miles
@@ -342,7 +391,7 @@ export default function TruckServices() {
                   
                   <div className="text-right">
                     <div className="text-2xl font-bold text-blue-600 mb-1">
-                      {stop.parkingSpaces} spaces
+                      {stop.parkingSpaces ? `${stop.parkingSpaces} spaces` : 'Parking Available'}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {stop.distance} miles
